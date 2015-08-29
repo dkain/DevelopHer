@@ -8,10 +8,15 @@ import android.app.Application;
 public class SpeakInApp extends Application {
 
     private VoiceTracker tracker;
+    private String notesUrl;
 
     public void setVoiceTracker(VoiceTracker tracker) { this.tracker = tracker; }
 
     public VoiceTracker getTracker() {
         return tracker;
     }
+
+    public void setNotesUrl(String url) { this.notesUrl = url; }
+
+    public String getNotesUrl() { return notesUrl; }
 }
