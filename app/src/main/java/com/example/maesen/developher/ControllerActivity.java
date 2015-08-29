@@ -1,5 +1,7 @@
 package com.example.maesen.developher;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +13,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TimePicker;
+
+import java.util.Calendar;
 
 public class ControllerActivity extends AppCompatActivity {
 
@@ -51,10 +55,26 @@ public class ControllerActivity extends AppCompatActivity {
         String url = urlField.getText().toString();
         Log.i("CONTROLLER ", url);
 
+        sendEndOfMeetingNotification();
+
         // START RECORDING!
         SpeakInApp app = ((SpeakInApp)getApplication());
         VoiceTracker tracker = app.getTracker();
         tracker.startTracking();
+    }
+
+    private void sendEndOfMeetingNotification() {
+        Intent intent = new Intent(this, EndOfMeetingReceiver.class);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 00);
+
+        Log.i("CONTROLLER ", "Set alarm ");
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
     @Override
