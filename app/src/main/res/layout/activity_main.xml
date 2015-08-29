@@ -9,17 +9,18 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
-        android:id="@+id/layout">
+        android:id="@+id/layout"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="What time will your meeting end?"
-            android:id="@+id/textView" />
+            android:text="When does your meeting end?"
+            android:textColor="#595c59"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textView" />
 
         <TimePicker
             android:layout_width="wrap_content"
