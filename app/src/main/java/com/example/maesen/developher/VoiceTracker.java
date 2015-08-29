@@ -2,7 +2,9 @@ package com.example.maesen.developher;
 
 import android.os.Bundle;
 import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.content.Intent;
 import android.text.format.Time;
 import android.content.Context;
 import java.util.HashMap;
@@ -13,19 +15,18 @@ import java.util.concurrent.TimeUnit;
  * Created by an on 8/28/15.
  */
 class VoiceTracker {
-    private SpeechRecognizer sr;
+    private VoiceDataHandler vdh;
 
     public VoiceTracker(Context context) {
-        sr = SpeechRecognizer.createSpeechRecognizer(context);
-        VoiceDataHandler vdh = new VoiceDataHandler();
+        vdh = new VoiceDataHandler(context);
     }
 
     public void startTracking() {
-        //sr.startListening();
+        vdh.startListening();
     }
 
     public void stopTracking() {
-        
+        vdh.stopListening();
     }
 
     public boolean hasSpokenEver() {
@@ -48,13 +49,42 @@ class VoiceTracker {
         return 0;
     }
 
+
     class VoiceDataHandler implements RecognitionListener {
+        private SpeechRecognizer sr;
+
         private HashMap<Time, Long> times = new HashMap<Time, Long>();
         private Time currentSpeechStart;
+        private boolean stopRequested = false;
+
+        public VoiceDataHandler(Context context) {
+            sr = SpeechRecognizer.createSpeechRecognizer(context);
+            sr.setRecognitionListener(this);
+        }
+
+        public void startListening() {
+            startListeningChunk();
+        }
+
+        public void stopListening() {
+            stopRequested = true;
+        }
+
+        private void startListeningChunk() {
+            if (!stopRequested) {
+                sr.setRecognitionListener(vdh);
+                sr.startListening(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH));
+            }
+        }
 
         @Override
-        public void onRmsChanged(float rmsdB) {
+        public void onResults(Bundle b) {
+            startListeningChunk();
+        }
 
+        @Override
+        public void onError(int error) {
+            startListeningChunk();
         }
 
         @Override
@@ -78,33 +108,29 @@ class VoiceTracker {
         }
 
         @Override
-        public void onReadyForSpeech(Bundle b) {
-
+        public void onRmsChanged(float rmsdB) {
+            // will not implement
         }
 
         @Override
-        public void onResults(Bundle b) {
-
+        public void onReadyForSpeech(Bundle b) {
+            // will not implement
         }
 
         @Override
         public void onPartialResults(Bundle b) {
-
+            // will not implement
         }
 
         @Override
         public void onEvent(int n, Bundle b) {
-
+            // will not implement
         }
 
         @Override
         public void onBufferReceived(byte[] b) {
-
+            // will not implement
         }
 
-        @Override
-        public void onError(int error) {
-
-        }
     }
 }
