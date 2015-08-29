@@ -42,7 +42,7 @@ public class MidpointMeetingReceiver extends BroadcastReceiver {
 
         // Set the notification to auto-cancel. This means that the notification will disappear
         // after the user taps it, rather than remaining until it's explicitly dismissed.
-        //builder.setAutoCancel(true);
+        builder.setAutoCancel(true);
 
         builder.setContentTitle("SpeakIn!");
 
