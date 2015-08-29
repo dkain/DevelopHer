@@ -76,7 +76,15 @@ class VoiceTracker {
         public void startListening() {
             Log.i("start listening", "is it happening");
             startTime.setToNow();
-            startListeningChunk();
+            //startListeningChunk();
+            while(!stopRequested) {
+                startListeningChunk();
+                try {
+                    Thread.sleep(5 * 1000, 0);
+                } catch(java.lang.InterruptedException e) {
+                    Log.i("LISTENER", "Interrupted!");
+                }
+            }
             Log.i("LISTENER", "Started listening");
         }
 
