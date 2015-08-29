@@ -17,6 +17,7 @@ class VoiceTracker {
 
     public VoiceTracker(Context context) {
         sr = SpeechRecognizer.createSpeechRecognizer(context);
+        VoiceDataHandler vdh = new VoiceDataHandler();
     }
 
     public void startTracking() {
