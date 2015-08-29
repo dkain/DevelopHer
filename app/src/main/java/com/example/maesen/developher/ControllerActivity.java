@@ -18,6 +18,9 @@ import java.util.Calendar;
 
 public class ControllerActivity extends AppCompatActivity {
 
+    private static final int END_OF_MEETING_NOTIFICATION_ID = 0;
+    private static final int MID_MEETING_NOTIFICATION_ID = 1;
+
     int hour;
     int minute;
 
@@ -42,10 +45,11 @@ public class ControllerActivity extends AppCompatActivity {
         if(((RadioButton)findViewById(R.id.radioButton)).isChecked()) {
             // Notifications every 5 minutes
             Log.i("CONTROLLER ", "button 1");
+            queueRepeatingNotifications();
         }
         if(((RadioButton)findViewById(R.id.radioButton2)).isChecked()) {
             // Halfway through notification
-            Log.i("CONTROLLER ", "button 2");
+            queueMidMeetingNotifcation();
         }
         if(((RadioButton)findViewById(R.id.radioButton3)).isChecked()) {
             // No notifications
@@ -53,20 +57,56 @@ public class ControllerActivity extends AppCompatActivity {
         }
         EditText urlField = (EditText)findViewById(R.id.editText);
         String url = urlField.getText().toString();
+        SpeakInApp app = ((SpeakInApp)getApplication());
+        app.setNotesUrl(url);
         Log.i("CONTROLLER ", url);
 
         sendEndOfMeetingNotification();
 
         // START RECORDING!
-        SpeakInApp app = ((SpeakInApp)getApplication());
+
         VoiceTracker tracker = app.getTracker();
         tracker.startTracking();
+    }
+
+    private void queueRepeatingNotifications() {
+        Calendar now = Calendar.getInstance();
+
+        Intent intent = new Intent(this, MidpointMeetingReceiver.class);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getService(this, MID_MEETING_NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //PendingIntent pendingIntent = PendingIntent.getBroadcast(this, MID_MEETING_NOTIFICATION_ID, intent, PendingIntent.FLAG_ONE_SHOT);
+
+        SpeakInApp app = ((SpeakInApp)getApplication());
+        app.setRepeatingIntent(pendingIntent);
+
+        Log.i("CONTROLLER ", "Set repeating alarm ");
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis(), 1000*5/*1000*60*5*/, pendingIntent);
+    }
+
+    private void queueMidMeetingNotifcation() {
+        Calendar now = Calendar.getInstance();
+
+        Intent intent = new Intent(this, MidpointMeetingReceiver.class);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, MID_MEETING_NOTIFICATION_ID, intent, PendingIntent.FLAG_ONE_SHOT);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 00);
+
+        Log.i("CONTROLLER ", "Set midpoint alarm ");
+
+        double diff = (calendar.getTimeInMillis() - now.getTimeInMillis())/2.0;
+        Log.i("CONTROLLER ", "Millis difference: " + diff);
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, now.getTimeInMillis() + (int)diff, pendingIntent);
     }
 
     private void sendEndOfMeetingNotification() {
         Intent intent = new Intent(this, EndOfMeetingReceiver.class);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, END_OF_MEETING_NOTIFICATION_ID, intent, PendingIntent.FLAG_ONE_SHOT);
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);

@@ -77,12 +77,14 @@ class VoiceTracker {
             Log.i("start listening", "is it happening");
             startTime.setToNow();
             startListeningChunk();
+            Log.i("LISTENER", "Started listening");
         }
 
         public void stopListening() {
             endTime.setToNow();
             stopRequested = true;
             endTimeRecorded = true;
+            Log.i("LISTENER", "Stopped listening");
         }
 
         private void startListeningChunk() {
@@ -115,6 +117,7 @@ class VoiceTracker {
         public void onBeginningOfSpeech() {
             currentSpeechStart = new Time();
             currentSpeechStart.setToNow();
+            Log.i("LISTENER", "Speech beginning");
         }
 
         @Override
@@ -129,8 +132,12 @@ class VoiceTracker {
             long elapsedMillis = currentSpeechEnd.toMillis(true) - currentSpeechStart.toMillis(true);
             long elapsedSeconds = TimeUnit.MILLISECONDS.toSeconds(elapsedMillis);
             times.put(currentSpeechStart, elapsedSeconds);
+<<<<<<< HEAD
 
             Log.i("onEndOfSpeech", "SPEECH END CALLBACK CALLED");
+=======
+            Log.i("LISTENER", "Speech ending");
+>>>>>>> e737063f11a31acbb4cbaec38cbb6e73338ec58f
         }
 
         @Override
