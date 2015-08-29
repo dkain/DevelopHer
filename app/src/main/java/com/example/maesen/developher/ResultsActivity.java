@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.text.format.Time;
 import android.view.MenuItem;
 import android.widget.*;
+import android.os.Vibrator;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -24,11 +25,15 @@ public class ResultsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("RESULTS", "REACHED");
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
         SpeakInApp app = ((SpeakInApp)getApplication());
         VoiceTracker tracker = app.getTracker();
+
+        tracker.stopTracking();
 
         // Cancel the reeating alarms, if they are going.
         PendingIntent repeatingIntent = app.getRepeatingIntent();

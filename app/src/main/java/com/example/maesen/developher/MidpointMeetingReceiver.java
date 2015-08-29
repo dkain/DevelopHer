@@ -1,5 +1,6 @@
 package com.example.maesen.developher;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -40,6 +41,8 @@ public class MidpointMeetingReceiver extends BroadcastReceiver {
         builder.setSmallIcon(R.drawable.ic_stat_notification);
 
         builder.setContentIntent(pendingIntent);
+
+        builder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE);
 
         // Set the notification to auto-cancel. This means that the notification will disappear
         // after the user taps it, rather than remaining until it's explicitly dismissed.
