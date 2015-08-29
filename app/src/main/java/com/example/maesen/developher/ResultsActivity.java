@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.*;
 
 import java.util.Map;
+import java.util.HashMap;
 
 public class ResultsActivity extends AppCompatActivity {
     private Map<Time, Long> timesMap;
@@ -26,8 +27,9 @@ public class ResultsActivity extends AppCompatActivity {
 
         SpeakInApp app = ((SpeakInApp)getApplication());
         VoiceTracker tracker = app.getTracker();
-        timesMap = tracker.getTimesSpoken();
-        parseTimes(timesMap);
+        //timesMap = tracker.getTimesSpoken();
+        timesMap = new HashMap<Time, Long>();
+        //parseTimes(timesMap);
 
         TextView meetingLength = (TextView)findViewById(R.id.meetingLength);
         meetingLength.setText("This meeting was " + getMeetingLength + " minutes long.");
