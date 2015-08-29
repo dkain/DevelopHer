@@ -12,13 +12,14 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Meeting Facts and Stats:"
         android:id="@+id/title"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#06988B" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="0"
+        android:text="filler text zero"
         android:id="@+id/meetingLength"
         android:layout_below="@+id/title"
         android:layout_alignParentLeft="true"
@@ -29,9 +30,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="1"
+        android:text="filler text one"
         android:id="@+id/timesSpoken"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="41dp"
         android:layout_below="@+id/meetingLength"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -40,20 +41,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="2"
+        android:text="filler text two"
         android:id="@+id/timeSpoken"
         android:layout_below="@+id/timesSpoken"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="58dp" />
+        android:layout_marginTop="44dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="3"
+        android:text="filler text three"
         android:id="@+id/avgTimeSpoken"
-        android:layout_marginTop="51dp"
+        android:layout_marginTop="47dp"
         android:layout_below="@+id/timeSpoken"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />

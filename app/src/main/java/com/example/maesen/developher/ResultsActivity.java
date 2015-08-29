@@ -27,9 +27,9 @@ public class ResultsActivity extends AppCompatActivity {
 
         SpeakInApp app = ((SpeakInApp)getApplication());
         VoiceTracker tracker = app.getTracker();
-        //timesMap = tracker.getTimesSpoken();
         timesMap = new HashMap<Time, Long>();
-        //parseTimes(timesMap);
+        timesMap = tracker.getTimesSpoken();
+        parseTimes(timesMap);
 
         TextView meetingLength = (TextView)findViewById(R.id.meetingLength);
         meetingLength.setText("This meeting was " + getMeetingLength + " minutes long.");
@@ -41,7 +41,7 @@ public class ResultsActivity extends AppCompatActivity {
         timeSpoken.setText("You spoke for " + getTimeSpoken + " minutes.");
 
         TextView avgTimeSpoken = (TextView)findViewById(R.id.avgTimeSpoken);
-        timeSpoken.setText("On average, you spoke for " + averageSpeakingTime + " minutes at a time.");
+        avgTimeSpoken.setText("On average, you spoke for " + averageSpeakingTime + " minutes at a time.");
 
         Intent intent = getIntent();
     }
