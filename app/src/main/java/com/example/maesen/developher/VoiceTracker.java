@@ -1,12 +1,11 @@
 package com.example.maesen.developher;
 
 import android.os.Bundle;
-import android.speech.RecognitionListener;
-import android.speech.RecognizerIntent;
-import android.speech.SpeechRecognizer;
+import android.speech.*;
 import android.content.Intent;
 import android.text.format.Time;
 import android.content.Context;
+import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -27,6 +26,7 @@ class VoiceTracker {
 
     public void stopTracking() {
         vdh.stopListening();
+        Log.i("stopTracking", "no longer listening to mic");
     }
 
     public boolean hasSpokenEver() {
@@ -34,6 +34,7 @@ class VoiceTracker {
     }
 
     public Map<Time, Long> getTimesSpoken() {
+        Log.i("GET TIMES SPOKEN-----", "IT'S HAPPENING?--------------");
         return vdh.times;
     }
 
@@ -61,11 +62,14 @@ class VoiceTracker {
         private boolean stopRequested = false;
 
         public VoiceDataHandler(Context context) {
+            Log.i("vdh constructor", "test");
+
             sr = SpeechRecognizer.createSpeechRecognizer(context);
             sr.setRecognitionListener(this);
         }
 
         public void startListening() {
+            Log.i("start listening", "is it happening");
             startTime.setToNow();
             startListeningChunk();
         }
@@ -76,9 +80,16 @@ class VoiceTracker {
         }
 
         private void startListeningChunk() {
+            Log.i("startListeningChunk", "starting outside of stopRequested check");
             if (!stopRequested) {
-                sr.setRecognitionListener(vdh);
+                Log.i("startListeningChunk", "listening should occur");
+                sr.setRecognitionListener(this);
+                sr.cancel();
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true);
+                //RecognizerIntent.
                 sr.startListening(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH));
+                Log.i("startListeningChunk", times.toString());
             }
         }
 
@@ -89,7 +100,10 @@ class VoiceTracker {
 
         @Override
         public void onError(int error) {
-            startListeningChunk();
+            if (!stopRequested) {
+                Log.e("onError", "RESTARTING LISTENING " + error);
+                startListeningChunk();
+            }
         }
 
         @Override
@@ -110,6 +124,8 @@ class VoiceTracker {
             long elapsedMillis = currentSpeechEnd.toMillis(true) - currentSpeechStart.toMillis(true);
             long elapsedSeconds = TimeUnit.MILLISECONDS.toSeconds(elapsedMillis);
             times.put(currentSpeechStart, elapsedSeconds);
+
+            Log.i("onEndOfSpeech", "SPEECH END CALLBACK CALLED");
         }
 
         @Override
