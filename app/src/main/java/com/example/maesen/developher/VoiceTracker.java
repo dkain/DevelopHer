@@ -132,12 +132,8 @@ class VoiceTracker {
             long elapsedMillis = currentSpeechEnd.toMillis(true) - currentSpeechStart.toMillis(true);
             long elapsedSeconds = TimeUnit.MILLISECONDS.toSeconds(elapsedMillis);
             times.put(currentSpeechStart, elapsedSeconds);
-<<<<<<< HEAD
-
             Log.i("onEndOfSpeech", "SPEECH END CALLBACK CALLED");
-=======
             Log.i("LISTENER", "Speech ending");
->>>>>>> e737063f11a31acbb4cbaec38cbb6e73338ec58f
         }
 
         @Override
