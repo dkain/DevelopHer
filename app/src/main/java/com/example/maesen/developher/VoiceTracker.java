@@ -2,7 +2,9 @@ package com.example.maesen.developher;
 
 import android.os.Bundle;
 import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.content.Intent;
 import android.text.format.Time;
 import android.content.Context;
 import java.util.HashMap;
@@ -13,48 +15,81 @@ import java.util.concurrent.TimeUnit;
  * Created by an on 8/28/15.
  */
 class VoiceTracker {
-    private SpeechRecognizer sr;
+    private VoiceDataHandler vdh;
 
     public VoiceTracker(Context context) {
-        sr = SpeechRecognizer.createSpeechRecognizer(context);
-        VoiceDataHandler vdh = new VoiceDataHandler();
+        vdh = new VoiceDataHandler(context);
     }
 
     public void startTracking() {
-        //sr.startListening();
+        vdh.startListening();
     }
 
     public void stopTracking() {
-        
+        vdh.stopListening();
     }
 
     public boolean hasSpokenEver() {
-        return false;
+        return !vdh.times.isEmpty();
     }
 
     public Map<Time, Long> getTimesSpoken() {
-        return null;
+        return vdh.times;
     }
 
     public Time getStartTime() {
-        return null;
+        return vdh.startTime;
     }
 
     public Time getEndTime() {
-        return null;
+        return vdh.endTime;
     }
 
     public long getMeetingLength() {
-        return 0;
+        long start = getStartTime().toMillis(true);
+        long end = getEndTime().toMillis(true);
+        return TimeUnit.MILLISECONDS.toSeconds(end - start);
     }
 
     class VoiceDataHandler implements RecognitionListener {
+        private SpeechRecognizer sr;
+
         private HashMap<Time, Long> times = new HashMap<Time, Long>();
+        private Time startTime = new Time();
+        private Time endTime = new Time();
         private Time currentSpeechStart;
+        private boolean stopRequested = false;
+
+        public VoiceDataHandler(Context context) {
+            sr = SpeechRecognizer.createSpeechRecognizer(context);
+            sr.setRecognitionListener(this);
+        }
+
+        public void startListening() {
+            startTime.setToNow();
+            startListeningChunk();
+        }
+
+        public void stopListening() {
+            endTime.setToNow();
+            stopRequested = true;
+        }
+
+        private void startListeningChunk() {
+            if (!stopRequested) {
+                sr.setRecognitionListener(vdh);
+                sr.startListening(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH));
+            }
+        }
 
         @Override
-        public void onRmsChanged(float rmsdB) {
+        public void onResults(Bundle b) {
+            startListeningChunk();
+        }
 
+        @Override
+        public void onError(int error) {
+            startListeningChunk();
         }
 
         @Override
@@ -78,33 +113,29 @@ class VoiceTracker {
         }
 
         @Override
-        public void onReadyForSpeech(Bundle b) {
-
+        public void onRmsChanged(float rmsdB) {
+            // will not implement
         }
 
         @Override
-        public void onResults(Bundle b) {
-
+        public void onReadyForSpeech(Bundle b) {
+            // will not implement
         }
 
         @Override
         public void onPartialResults(Bundle b) {
-
+            // will not implement
         }
 
         @Override
         public void onEvent(int n, Bundle b) {
-
+            // will not implement
         }
 
         @Override
         public void onBufferReceived(byte[] b) {
-
+            // will not implement
         }
 
-        @Override
-        public void onError(int error) {
-
-        }
     }
 }
