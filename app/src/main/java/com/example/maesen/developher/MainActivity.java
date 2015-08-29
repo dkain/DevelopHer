@@ -19,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SpeakInApp app = ((SpeakInApp)getApplication());
+        VoiceTracker tracker = new VoiceTracker(getApplicationContext());
+        app.setVoiceTracker(tracker);
         setContentView(R.layout.activity_main);
     }
 

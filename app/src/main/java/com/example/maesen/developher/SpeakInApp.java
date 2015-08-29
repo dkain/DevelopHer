@@ -7,7 +7,9 @@ import android.app.Application;
  */
 public class SpeakInApp extends Application {
 
-    private VoiceTracker tracker = new VoiceTracker();
+    private VoiceTracker tracker;
+
+    public void setVoiceTracker(VoiceTracker tracker) { this.tracker = tracker; }
 
     public VoiceTracker getTracker() {
         return tracker;
