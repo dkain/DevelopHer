@@ -49,7 +49,7 @@ public class ResultsActivity extends AppCompatActivity {
         timesSpoken.setText("You spoke " + getTimesSpoken + " times.");
 
         TextView timeSpoken = (TextView)findViewById(R.id.timeSpoken);
-        timeSpoken.setText("You spoke for " + getTimeSpoken + " minutes.");
+        timeSpoken.setText("You spoke for " + (int)getTimeSpoken + " minutes.");
 
         TextView avgTimeSpoken = (TextView)findViewById(R.id.avgTimeSpoken);
         avgTimeSpoken.setText("On average, you spoke for " + averageSpeakingTime + " minutes at a time.");
@@ -63,6 +63,7 @@ public class ResultsActivity extends AppCompatActivity {
             getTimeSpoken += timesMap.get(startTime);
         }
         averageSpeakingTime = getTimeSpoken/getTimesSpoken;
+        getTimeSpoken /= 60;
     }
 
     @Override
