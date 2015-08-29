@@ -7,6 +7,8 @@ import android.speech.SpeechRecognizer;
 import android.content.Intent;
 import android.text.format.Time;
 import android.content.Context;
+import android.util.Log;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -68,11 +70,13 @@ class VoiceTracker {
         public void startListening() {
             startTime.setToNow();
             startListeningChunk();
+            Log.i("LISTENER", "Started listening");
         }
 
         public void stopListening() {
             endTime.setToNow();
             stopRequested = true;
+            Log.i("LISTENER", "Stopped listening");
         }
 
         private void startListeningChunk() {
@@ -96,6 +100,7 @@ class VoiceTracker {
         public void onBeginningOfSpeech() {
             currentSpeechStart = new Time();
             currentSpeechStart.setToNow();
+            Log.i("LISTENER", "Speech beginning");
         }
 
         @Override
@@ -110,6 +115,7 @@ class VoiceTracker {
             long elapsedMillis = currentSpeechEnd.toMillis(true) - currentSpeechStart.toMillis(true);
             long elapsedSeconds = TimeUnit.MILLISECONDS.toSeconds(elapsedMillis);
             times.put(currentSpeechStart, elapsedSeconds);
+            Log.i("LISTENER", "Speech ending");
         }
 
         @Override

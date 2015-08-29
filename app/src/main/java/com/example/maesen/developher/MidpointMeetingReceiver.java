@@ -21,13 +21,16 @@ public class MidpointMeetingReceiver extends BroadcastReceiver {
         SpeakInApp app = ((SpeakInApp)context.getApplicationContext());
         VoiceTracker tracker = app.getTracker();
         String url = app.getNotesUrl();
+        if(url.length() == 0) {
+            url = "http://greatist.com/grow/easy-confidence-boosters";
+        }
 
         Log.i("MID MEETING", url);
 
         Intent intent2 = new Intent(Intent.ACTION_VIEW);
         intent2.setData(Uri.parse(url));
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent2, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 4, intent2, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
@@ -49,7 +52,11 @@ public class MidpointMeetingReceiver extends BroadcastReceiver {
             builder.setContentText("I haven't heard your voice yet!");
         }
 
-        builder.setSubText("Tap to see your notes.");
+        if(url.equals("http://greatist.com/grow/easy-confidence-boosters")) {
+            builder.setSubText("Tap to see your notes.");
+        } else {
+            builder.setSubText("Tap to see some confidence boosting tips.");
+        }
 
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1, builder.build());
