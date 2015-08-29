@@ -1,5 +1,7 @@
 package com.example.maesen.developher;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +29,14 @@ public class ResultsActivity extends AppCompatActivity {
 
         SpeakInApp app = ((SpeakInApp)getApplication());
         VoiceTracker tracker = app.getTracker();
+
+        // Cancel the reeating alarms, if they are going.
+        PendingIntent repeatingIntent = app.getRepeatingIntent();
+        if(repeatingIntent != null) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            alarmManager.cancel(repeatingIntent);
+        }
+
         timesMap = new HashMap<Time, Long>();
         timesMap = tracker.getTimesSpoken();
         parseTimes(timesMap);

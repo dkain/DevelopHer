@@ -14,6 +14,8 @@ import android.net.Uri;
  */
 public class MidpointMeetingReceiver extends BroadcastReceiver {
 
+    private static final String CONFIDENCE = "http://greatist.com/grow/easy-confidence-boosters";
+
     public void onReceive(Context context, Intent intent) {
         Log.i("MID MEETING", "REACHED");
         Log.i("MID MEETING", context.toString());
@@ -22,7 +24,7 @@ public class MidpointMeetingReceiver extends BroadcastReceiver {
         VoiceTracker tracker = app.getTracker();
         String url = app.getNotesUrl();
         if(url.length() == 0) {
-            url = "http://greatist.com/grow/easy-confidence-boosters";
+            url = CONFIDENCE;
         }
 
         Log.i("MID MEETING", url);
@@ -40,19 +42,19 @@ public class MidpointMeetingReceiver extends BroadcastReceiver {
 
         // Set the notification to auto-cancel. This means that the notification will disappear
         // after the user taps it, rather than remaining until it's explicitly dismissed.
-        builder.setAutoCancel(true);
+        //builder.setAutoCancel(true);
 
         builder.setContentTitle("SpeakIn!");
 
 
 
         if(tracker.hasSpokenEver()) {
-            builder.setContentText("I loved hearing your voice this meeting!");
+            builder.setContentText("I love hearing your voice, keep it up!");
         } else {
             builder.setContentText("I haven't heard your voice yet!");
         }
 
-        if(url.equals("http://greatist.com/grow/easy-confidence-boosters")) {
+        if(!url.equals(CONFIDENCE)) {
             builder.setSubText("Tap to see your notes.");
         } else {
             builder.setSubText("Tap to see some confidence boosting tips.");

@@ -45,6 +45,7 @@ public class ControllerActivity extends AppCompatActivity {
         if(((RadioButton)findViewById(R.id.radioButton)).isChecked()) {
             // Notifications every 5 minutes
             Log.i("CONTROLLER ", "button 1");
+            queueRepeatingNotifications();
         }
         if(((RadioButton)findViewById(R.id.radioButton2)).isChecked()) {
             // Halfway through notification
@@ -66,6 +67,21 @@ public class ControllerActivity extends AppCompatActivity {
 
         VoiceTracker tracker = app.getTracker();
         tracker.startTracking();
+    }
+
+    private void queueRepeatingNotifications() {
+        Calendar now = Calendar.getInstance();
+
+        Intent intent = new Intent(this, MidpointMeetingReceiver.class);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getService(this, MID_MEETING_NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //PendingIntent pendingIntent = PendingIntent.getBroadcast(this, MID_MEETING_NOTIFICATION_ID, intent, PendingIntent.FLAG_ONE_SHOT);
+
+        SpeakInApp app = ((SpeakInApp)getApplication());
+        app.setRepeatingIntent(pendingIntent);
+
+        Log.i("CONTROLLER ", "Set repeating alarm ");
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis(), 1000*5/*1000*60*5*/, pendingIntent);
     }
 
     private void queueMidMeetingNotifcation() {
