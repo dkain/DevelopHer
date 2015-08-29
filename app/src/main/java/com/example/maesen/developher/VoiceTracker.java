@@ -30,30 +30,33 @@ class VoiceTracker {
     }
 
     public boolean hasSpokenEver() {
-        return false;
+        return !vdh.times.isEmpty();
     }
 
     public Map<Time, Long> getTimesSpoken() {
-        return null;
+        return vdh.times;
     }
 
     public Time getStartTime() {
-        return null;
+        return vdh.startTime;
     }
 
     public Time getEndTime() {
-        return null;
+        return vdh.endTime;
     }
 
     public long getMeetingLength() {
-        return 0;
+        long start = getStartTime().toMillis();
+        long end = getEndTime().toMillis();
+        return TimeUnit.MILLISECONDS.toSeconds(end - start);
     }
-
 
     class VoiceDataHandler implements RecognitionListener {
         private SpeechRecognizer sr;
 
         private HashMap<Time, Long> times = new HashMap<Time, Long>();
+        private Time startTime = new Time();
+        private Time endTime = new Time();
         private Time currentSpeechStart;
         private boolean stopRequested = false;
 
@@ -63,10 +66,12 @@ class VoiceTracker {
         }
 
         public void startListening() {
+            startTime.setToNow();
             startListeningChunk();
         }
 
         public void stopListening() {
+            endTime.setToNow();
             stopRequested = true;
         }
 
