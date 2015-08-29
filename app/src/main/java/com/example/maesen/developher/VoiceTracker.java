@@ -46,8 +46,8 @@ class VoiceTracker {
     }
 
     public long getMeetingLength() {
-        long start = getStartTime().toMillis();
-        long end = getEndTime().toMillis();
+        long start = getStartTime().toMillis(true);
+        long end = getEndTime().toMillis(true);
         return TimeUnit.MILLISECONDS.toSeconds(end - start);
     }
 
