@@ -27,8 +27,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/timePicker"
             android:layout_marginTop="10dp"
-            android:timePickerMode="clock"
-            android:layout_gravity="center" />
+            android:timePickerMode="spinner"
+            android:layout_gravity="center"
+            android:touchscreenBlocksFocus="false" />
 
         <Button
             android:layout_width="wrap_content"
@@ -39,5 +40,15 @@
             android:paddingTop="10dp"
             android:layout_marginTop="20dp"
             android:onClick="onStartClicked" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Small Text"
+            android:id="@+id/textView3"
+            android:visibility="invisible"
+            android:textStyle="italic"
+            android:textColor="#ff1206" />
     </LinearLayout>
 </RelativeLayout>

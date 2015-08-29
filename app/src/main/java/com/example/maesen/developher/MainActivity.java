@@ -9,9 +9,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Button;
 
+import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,9 +34,28 @@ public class MainActivity extends AppCompatActivity {
         Log.i("HELLO ", "" + timePicker.getCurrentMinute());
 
         Intent myIntent = new Intent(MainActivity.this, ControllerActivity.class);
-        myIntent.putExtra("endHour", timePicker.getCurrentHour()); //Optional parameters
-        myIntent.putExtra("endMinute", timePicker.getCurrentMinute());
-        MainActivity.this.startActivity(myIntent);
+        int hour = timePicker.getCurrentHour();
+        int minute = timePicker.getCurrentMinute();
+
+        myIntent.putExtra("endHour", hour); //Optional parameters
+        myIntent.putExtra("endMinute", minute);
+
+        TextView error = (TextView)findViewById(R.id.textView3);
+
+        Calendar c = Calendar.getInstance();
+        Calendar meetingEnd = Calendar.getInstance();
+        meetingEnd.set(Calendar.HOUR_OF_DAY, hour);
+        meetingEnd.set(Calendar.MINUTE, minute);
+
+        if((c.get(Calendar.HOUR_OF_DAY) == hour && c.get(Calendar.MINUTE) > minute) || c.get(Calendar.HOUR_OF_DAY) < hour ) {
+            error.setText("Meeting must end today!");
+            error.setVisibility(View.VISIBLE);
+        } else if(meetingEnd.getTimeInMillis() - c.getTimeInMillis() < 1000*60*5) {
+            error.setText("Meeting cannot be shorter than five minutes!");
+            error.setVisibility(View.VISIBLE);
+        } else {
+            MainActivity.this.startActivity(myIntent);
+        }
     }
 
     @Override
