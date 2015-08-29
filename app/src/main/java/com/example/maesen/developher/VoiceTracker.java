@@ -43,7 +43,11 @@ class VoiceTracker {
     }
 
     public Time getEndTime() {
-        return vdh.endTime;
+        if (vdh.endTimeRecorded) {
+            return vdh.endTime;
+        } else {
+            return new Time();
+        }
     }
 
     public long getMeetingLength() {
@@ -60,6 +64,7 @@ class VoiceTracker {
         private Time endTime = new Time();
         private Time currentSpeechStart;
         private boolean stopRequested = false;
+        private boolean endTimeRecorded = false;
 
         public VoiceDataHandler(Context context) {
             Log.i("vdh constructor", "test");
@@ -77,6 +82,7 @@ class VoiceTracker {
         public void stopListening() {
             endTime.setToNow();
             stopRequested = true;
+            endTimeRecorded = true;
         }
 
         private void startListeningChunk() {
@@ -87,7 +93,6 @@ class VoiceTracker {
                 sr.cancel();
                 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                 intent.putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true);
-                //RecognizerIntent.
                 sr.startListening(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH));
                 Log.i("startListeningChunk", times.toString());
             }
