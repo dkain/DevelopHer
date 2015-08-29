@@ -2,7 +2,9 @@ package com.example.maesen.developher;
 
 import android.os.Bundle;
 import android.speech.RecognitionListener;
-
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 /**
  * Created by an on 8/28/15.
  */
@@ -54,5 +56,10 @@ class VoiceTracker implements RecognitionListener {
 
     public boolean hasSpokenEver() {
         return false;
+    }
+
+    public Map<Timestamp, Integer> getTimesSpoken() {
+        HashMap<Timestamp, Integer> times = new HashMap<Timestamp, Integer>();
+        return times;
     }
 }
