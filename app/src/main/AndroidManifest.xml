@@ -20,6 +20,10 @@
             android:name=".ControllerActivity"
             android:label="SpeakIn" >
         </activity>
+        <activity
+            android:name=".ResultsActivity"
+            android:label="SpeakIn" >
+        </activity>
 
         <receiver android:name=".EndOfMeetingReceiver" >
             <intent-filter>

@@ -17,7 +17,7 @@ public class EndOfMeetingReceiver extends BroadcastReceiver {
         Log.i("END OF MEETING", "REACHED");
         Log.i("END OF MEETING", context.toString());
 
-        Intent intent2 = new Intent(context, MainActivity.class);
+        Intent intent2 = new Intent(context, ResultsActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent2, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
