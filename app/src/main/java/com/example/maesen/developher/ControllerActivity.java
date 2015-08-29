@@ -10,21 +10,28 @@ import android.view.View;
 
 public class ControllerActivity extends AppCompatActivity {
 
+    int hour;
+    int minute;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controller);
 
+        SpeakInApp app = ((SpeakInApp)getApplication());
+        VoiceTracker tracker = app.getTracker();
+        Log.i("CONTROLLER ", "" + tracker.toString());
+
         Intent intent = getIntent();
-        int hour = intent.getIntExtra("endHour", 0);
-        int minute = intent.getIntExtra("endMinute", 0);
+        hour = intent.getIntExtra("endHour", 0);
+        minute = intent.getIntExtra("endMinute", 0);
 
         Log.i("CONTROLLER ", "" + hour);
         Log.i("CONTROLLER ", "" + minute);
     }
 
     public void onStartSpeakin(View view) {
-        
+
     }
 
     @Override

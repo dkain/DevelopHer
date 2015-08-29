@@ -1,6 +1,8 @@
 package com.example.maesen.developher;
 
 import android.content.Intent;
+import com.example.maesen.developher.VoiceTracker;
+import android.app.Application;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TimePicker;
 import android.widget.Button;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
