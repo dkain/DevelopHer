@@ -7,6 +7,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TimePicker;
 
 public class ControllerActivity extends AppCompatActivity {
 
@@ -31,7 +35,26 @@ public class ControllerActivity extends AppCompatActivity {
     }
 
     public void onStartSpeakin(View view) {
+        if(((RadioButton)findViewById(R.id.radioButton)).isChecked()) {
+            // Notifications every 5 minutes
+            Log.i("CONTROLLER ", "button 1");
+        }
+        if(((RadioButton)findViewById(R.id.radioButton2)).isChecked()) {
+            // Halfway through notification
+            Log.i("CONTROLLER ", "button 2");
+        }
+        if(((RadioButton)findViewById(R.id.radioButton3)).isChecked()) {
+            // No notifications
+            Log.i("CONTROLLER ", "button 3");
+        }
+        EditText urlField = (EditText)findViewById(R.id.editText);
+        String url = urlField.getText().toString();
+        Log.i("CONTROLLER ", url);
 
+        // START RECORDING!
+        SpeakInApp app = ((SpeakInApp)getApplication());
+        VoiceTracker tracker = app.getTracker();
+        tracker.startTracking();
     }
 
     @Override
