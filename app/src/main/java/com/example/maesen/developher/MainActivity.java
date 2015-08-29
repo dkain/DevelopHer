@@ -2,8 +2,12 @@ package com.example.maesen.developher;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TimePicker;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -11,6 +15,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    public void onStartClicked(View view) {
+        TimePicker timePicker = (TimePicker)findViewById(R.id.timePicker);
+        Log.i("HELLO ", "" + timePicker.toString());
+        
     }
 
     @Override
