@@ -40,6 +40,7 @@ public class ResultsActivity extends AppCompatActivity {
         timesMap = new HashMap<Time, Long>();
         timesMap = tracker.getTimesSpoken();
         parseTimes(timesMap);
+        getMeetingLength = tracker.getMeetingLength();
 
         TextView meetingLength = (TextView)findViewById(R.id.meetingLength);
         meetingLength.setText("This meeting was " + getMeetingLength + " minutes long.");
