@@ -67,7 +67,9 @@ public class ResultsActivity extends AppCompatActivity {
         for (Time startTime : timesSpoken.keySet()) {
             getTimeSpoken += timesMap.get(startTime);
         }
-        averageSpeakingTime = getTimeSpoken/getTimesSpoken;
+        if (getTimesSpoken != 0) {
+            averageSpeakingTime = getTimeSpoken / getTimesSpoken;
+        }
         getTimeSpoken /= 60;
     }
 
