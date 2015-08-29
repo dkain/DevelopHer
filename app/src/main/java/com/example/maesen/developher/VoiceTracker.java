@@ -2,13 +2,18 @@ package com.example.maesen.developher;
 
 import android.os.Bundle;
 import android.speech.RecognitionListener;
-import java.sql.Timestamp;
+import android.text.format.Time;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by an on 8/28/15.
  */
 class VoiceTracker implements RecognitionListener {
+    private HashMap<Time, Long> times = new HashMap<Time, Long>();
+    private Time currentSpeechStart;
+
     @Override
     public void onRmsChanged(float rmsdB) {
 
@@ -16,12 +21,22 @@ class VoiceTracker implements RecognitionListener {
 
     @Override
     public void onBeginningOfSpeech() {
-
+        currentSpeechStart = new Time();
+        currentSpeechStart.setToNow();
     }
 
     @Override
     public void onEndOfSpeech() {
+        Time currentSpeechEnd = new Time();
+        currentSpeechEnd.setToNow();
 
+        if (currentSpeechEnd.before(currentSpeechStart)) {
+            throw new Error("WTF");
+        }
+
+        long elapsedMillis = currentSpeechEnd.toMillis(true) - currentSpeechStart.toMillis(true);
+        long elapsedSeconds = TimeUnit.MILLISECONDS.toSeconds(elapsedMillis);
+        times.put(currentSpeechStart, elapsedSeconds);
     }
 
     @Override
@@ -54,12 +69,15 @@ class VoiceTracker implements RecognitionListener {
 
     }
 
-    public boolean hasSpokenEver() {
-        return false;
+    public void startTracking() {
+
     }
 
-    public Map<Timestamp, Integer> getTimesSpoken() {
-        HashMap<Timestamp, Integer> times = new HashMap<Timestamp, Integer>();
+    public boolean hasSpokenEver() {
+        return !times.isEmpty();
+    }
+
+    public Map<Time, Long> getTimesSpoken() {
         return times;
     }
 }
