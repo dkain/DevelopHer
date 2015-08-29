@@ -18,7 +18,6 @@ import java.util.HashMap;
 public class ResultsActivity extends AppCompatActivity {
     private Map<Time, Long> timesMap;
     private double getMeetingLength = 0;
-    private ProgressBar progressBar = null;
     private int i = 0;
 
     @Override
@@ -44,27 +43,7 @@ public class ResultsActivity extends AppCompatActivity {
         timesMap = new HashMap<Time, Long>();
         timesMap = tracker.getTimesSpoken();
         parseTimes(timesMap);
-        getMeetingLength = (int)(tracker.getMeetingLength()/60);
-
-        TextView meetingLength = (TextView)findViewById(R.id.meetingLength);
-        if (getMeetingLength == 1) {
-            meetingLength.setText("&#8226;Your meeting was " + getMeetingLength + " minute long");
-        }
-        meetingLength.setText("&#8226;Your meeting was " + getMeetingLength + " minutes long");
-
-
-        double getTimeSpoken = .5;
-        double percentSpeaking = 0;
-        if (getMeetingLength > 0) {
-            percentSpeaking = (int)(100 * getTimeSpoken / getMeetingLength);
-        }
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
-        progressBar.setProgress((int)percentSpeaking);
         Intent intent = getIntent();
-
-        TextView progressPercent = (TextView)findViewById(R.id.editText2);
-        progressPercent.setText("You spoke for " + percentSpeaking + "% of the time.");
-
     }
 
     private void parseTimes(Map<Time, Long> timesSpoken) {
