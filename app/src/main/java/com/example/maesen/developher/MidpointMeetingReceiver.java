@@ -9,6 +9,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.net.Uri;
 
+import java.util.Random;
 /**
  * Created by maesen on 8/28/15.
  */
@@ -46,12 +47,21 @@ public class MidpointMeetingReceiver extends BroadcastReceiver {
 
         builder.setContentTitle("SpeakIn!");
 
+        Random r = new Random();
+        int i1 = r.nextInt(3);
 
+        String[] hasSpoken = {"I love hearing your voice, keep it up!",
+                "Keep on speakin'!",
+                "You're doing great...don't stop speakin'!"};
+
+        String[] hasNotSpoken = {"I haven't heard your voice yet!",
+                "Give me some love...speak up!",
+                "Remember to speak before the meeting ends!"};
 
         if(tracker.hasSpokenEver()) {
-            builder.setContentText("I love hearing your voice, keep it up!");
+            builder.setContentText(hasSpoken[i1]);
         } else {
-            builder.setContentText("I haven't heard your voice yet!");
+            builder.setContentText(hasNotSpoken[i1]);
         }
 
         if(!url.equals(CONFIDENCE)) {
