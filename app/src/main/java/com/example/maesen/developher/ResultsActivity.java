@@ -17,9 +17,6 @@ import java.util.HashMap;
 
 public class ResultsActivity extends AppCompatActivity {
     private Map<Time, Long> timesMap;
-    private int getTimesSpoken = 0;
-    private double getTimeSpoken = 0;
-    private double averageSpeakingTime = 0;
     private double getMeetingLength = 0;
     private ProgressBar progressBar = null;
     private int i = 0;
@@ -55,48 +52,22 @@ public class ResultsActivity extends AppCompatActivity {
         }
         meetingLength.setText("&#8226;Your meeting was " + getMeetingLength + " minutes long");
 
-        TextView timesSpoken = (TextView)findViewById(R.id.timesSpoken);
-        if (getTimesSpoken == 1) {
-            timesSpoken.setText("&#8226;You spoke " + getTimesSpoken + " time");
-        }
-        else {
-            timesSpoken.setText("&#8226;You spoke " + getTimesSpoken + " times");
-        }
 
-        TextView timeSpoken = (TextView)findViewById(R.id.timeSpoken);
-        if ((int)getTimeSpoken == 1) {
-            timeSpoken.setText("&#8226;You spoke for " + (int)getTimeSpoken + " minute");
+        double getTimeSpoken = .5;
+        double percentSpeaking = 0;
+        if (getMeetingLength > 0) {
+            percentSpeaking = (int)(100 * getTimeSpoken / getMeetingLength);
         }
-        else {
-            timeSpoken.setText("&#8226;You spoke for " + (int)getTimeSpoken + " minutes");
-        }
-
-        averageSpeakingTime /= 60;
-        TextView avgTimeSpoken = (TextView)findViewById(R.id.avgTimeSpoken);
-        if ((int)averageSpeakingTime == 1) {
-            avgTimeSpoken.setText("&#8226;On average you spoke for " + (int)averageSpeakingTime + " minute at a time");
-        }
-        avgTimeSpoken.setText("&#8226;On average you spoke for " + (int)averageSpeakingTime + " minutes at a time");
-
-        int percentSpeaking = 0;
-        if (getTimeSpoken > 0) {
-            percentSpeaking = (int)(getTimeSpoken / getMeetingLength);
-        }
-        percentSpeaking = (int)(percentSpeaking * 100);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
-        progressBar.setProgress(percentSpeaking);
+        progressBar.setProgress((int)percentSpeaking);
         Intent intent = getIntent();
+
+        TextView progressPercent = (TextView)findViewById(R.id.editText2);
+        progressPercent.setText("You spoke for " + percentSpeaking + "% of the time.");
+
     }
 
     private void parseTimes(Map<Time, Long> timesSpoken) {
-        getTimesSpoken = timesSpoken.keySet().size();
-        for (Time startTime : timesSpoken.keySet()) {
-            getTimeSpoken += timesMap.get(startTime);
-        }
-        if (getTimesSpoken != 0) {
-            averageSpeakingTime = getTimeSpoken / getTimesSpoken;
-        }
-        getTimeSpoken /= 60;
     }
 
     @Override

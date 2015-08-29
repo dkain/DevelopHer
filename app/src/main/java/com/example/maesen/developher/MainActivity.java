@@ -47,11 +47,11 @@ public class MainActivity extends AppCompatActivity {
         meetingEnd.set(Calendar.HOUR_OF_DAY, hour);
         meetingEnd.set(Calendar.MINUTE, minute);
 
-        if((c.get(Calendar.HOUR_OF_DAY) == hour && c.get(Calendar.MINUTE) > minute) || c.get(Calendar.HOUR_OF_DAY) < hour ) {
+        if((c.get(Calendar.HOUR_OF_DAY) == hour && c.get(Calendar.MINUTE) > minute) || c.get(Calendar.HOUR_OF_DAY) > hour ) {
             error.setText("Meeting must end today!");
             error.setVisibility(View.VISIBLE);
-        } else if(meetingEnd.getTimeInMillis() - c.getTimeInMillis() < 1000*60*5) {
-            error.setText("Meeting cannot be shorter than five minutes!");
+        } else if(meetingEnd.getTimeInMillis() - c.getTimeInMillis() < 1000*60*2) {
+            error.setText("Meeting cannot be shorter than two minutes!");
             error.setVisibility(View.VISIBLE);
         } else {
             MainActivity.this.startActivity(myIntent);
